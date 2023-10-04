@@ -25,33 +25,45 @@ def update (index, item):
 def destroy(index):
     checklist.pop(index)
 
-def list_all_items():
-    index = 0
-    for list_item in checklist:
-        print(list_item)
-        index += 1
 
 def marked_complete(index):
     checklist[index] += "√"
 
 def select(function_code):
-    if function_code == "C":
-        item_index = int(input("Index Number?"))
-        create(input("Enter input to add:"))
+    if function_code.upper() == "C":
+        item = user_input("Enter item to add: ")
+        create(item)
 
-    elif function_code ==  "R":
-        item_index =  int(input("Index Number?"))
-        if 0 <= item_index < len(checklist):
-            print(read(item_index))
+    elif function_code.upper() == "R":
+        index = int(user_input("Enter index to read: "))
+        if 0 <= index < len(checklist):
+            print(read(index))
         else:
             print("Invalid index")
-    
-    elif function_code == "P":
+
+    elif function_code.upper() == "U":
+        index = int(user_input("Enter index to update: "))
+        item = user_input("Enter updated item: ")
+        update(index, item)
+         
+    elif function_code.upper() == "D":
+        index = int(user_input("Enter index to destroy: "))
+        destroy(index)
+
+    elif function_code.upper() == "L":
         list_all_items()
+
+    elif function_code.upper() == "M":
+        index = int(user_input("Enter index to mark completed: "))
+        mark_completed(index)
+
+    elif function_code.upper() == "Q":
+        return False
 
     else:
         print("Unknown Option")
-
+    
+    return True
 def user_input(prompt):
     user_input = input(prompt)
     return user_input
@@ -79,6 +91,8 @@ select("R")
 
 list_all_items()
 
-user_value = user_input("0", "1" )
-print(user_value)
-test()
+running = True
+while running:
+    selection = input("Press C to add to list, R to Read from list, U to Update, D to Destroy, L to List, M to Mark Completed, and Q to quit: ")
+    running = select(selection)
+
